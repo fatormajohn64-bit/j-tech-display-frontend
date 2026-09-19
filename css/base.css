@@ -1,0 +1,94 @@
+/**
+ * Reset + the rules that make this feel like an installed app rather
+ * than a webpage: no pinch-zoom, no rubber-band overscroll, no callout
+ * menus on long-press, no text-selection on chrome. Actual screen
+ * content still allows normal scrolling — only the app shell itself is
+ * locked down.
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  /* Belt-and-suspenders with the viewport meta tag in index.html —
+     some Android WebViews still allow pinch-zoom unless this is also
+     set here. */
+  touch-action: manipulation;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+html,
+body {
+  height: 100%;
+  overscroll-behavior: none; /* kills the pull-to-refresh / rubber-band bounce */
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  position: fixed;
+  inset: 0;
+  overflow: hidden; /* the app shell manages its own scroll regions, not the page */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none; /* no iOS long-press "save image" menu on chrome elements */
+}
+
+/* Wallpaper images and any readable body text re-enable selection /
+   callout individually via this class, so favoriting/sharing images
+   and copying text still work naturally where it matters. */
+.selectable {
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  -webkit-user-drag: none;
+}
+
+button {
+  font-family: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+input {
+  font-family: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+/* Custom scrollbar for the (rare) desktop/browser preview case — mobile
+   installed PWAs don't show this at all. */
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
