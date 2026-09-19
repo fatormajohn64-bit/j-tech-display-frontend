@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <!-- user-scalable=no + maximum-scale=1 is what removes pinch-zoom;
+       viewport-fit=cover lets us read safe-area-inset-* for notches. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0A0D16" />
+  <meta name="description" content="J-Tech Display — discover, favorite, and download wallpapers." />
+
+  <!-- iOS: makes "Add to Home Screen" launch full-screen with no Safari chrome -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="J-Tech" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32.png" />
+  <link rel="manifest" href="manifest.webmanifest" />
+
+  <title>J-Tech Display</title>
+
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/screens.css" />
+</head>
+<body>
+  <div id="app-shell">
+    <div id="screen-container">
+
+      <!-- ============ Tab screens (bottom nav) ============ -->
+
+      <section class="screen" data-screen="home"></section>
+
+      <section class="screen" data-screen="search">
+        <div class="screen-content">
+          <div class="state-block">
+            <div class="state-title">Search</div>
+            <div>Built in a later phase.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="categories">
+        <div class="screen-content">
+          <div class="state-block">
+            <div class="state-title">Categories</div>
+            <div>Built in a later phase.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="favorites">
+        <div class="screen-content">
+          <div class="state-block">
+            <div class="state-title">Favorites</div>
+            <div>Built in a later phase.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="profile">
+        <div class="screen-content">
+          <div class="state-block">
+            <div class="state-title">Profile</div>
+            <div>Built in a later phase.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ Stack screens (pushed, own back button, no bottom nav) ============ -->
+
+      <section class="screen" data-screen="wallpaper-detail">
+        <div class="screen-content no-bottom-nav">
+          <button type="button" class="icon-btn" data-action="back"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <div class="state-block">
+            <div class="state-title">Wallpaper Detail</div>
+            <div>Built in a later phase.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="category-detail">
+        <div class="screen-content no-bottom-nav">
+          <button type="button" class="icon-btn" data-action="back"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <div class="state-block">
+            <div class="state-title">Category Detail</div>
+            <div>Built in a later phase.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="settings">
+        <div class="screen-content no-bottom-nav">
+          <button type="button" class="icon-btn" data-action="back"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <div class="state-block">
+            <div class="state-title">Settings</div>
+            <div>Built in a later phase.</div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <nav id="bottom-nav">
+      <button type="button" class="nav-item" data-nav-target="home">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+        <span>Home</span>
+        <div class="nav-indicator"></div>
+      </button>
+      <button type="button" class="nav-item" data-nav-target="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.3-4.3"/></svg>
+        <span>Search</span>
+        <div class="nav-indicator"></div>
+      </button>
+      <button type="button" class="nav-item" data-nav-target="categories">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        <span>Categories</span>
+        <div class="nav-indicator"></div>
+      </button>
+      <button type="button" class="nav-item" data-nav-target="favorites">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-10-9.3C.4 7.6 2 4 5.6 4c2 0 3.4 1 4.9 2.7C12 5 13.4 4 15.4 4 19 4 20.6 7.6 22 11.2c-2.5 4.7-10 9.3-10 9.3z"/></svg>
+        <span>Favorites</span>
+        <div class="nav-indicator"></div>
+      </button>
+      <button type="button" class="nav-item" data-nav-target="profile">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+        <span>Profile</span>
+        <div class="nav-indicator"></div>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Config first: everything below reads window.APP_CONFIG -->
+  <script src="js/config.js"></script>
+
+  <!-- Supabase JS (Google sign-in lives entirely behind this) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+  <script src="js/icons.js"></script>
+  <script src="js/toast.js"></script>
+  <script src="js/media-actions.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/router.js"></script>
+
+  <!-- Screen modules register themselves with Router.register(...) —
+       added one by one in later phases. -->
+  <script src="js/screens/home.js"></script>
+
+  <!-- app.js last: it calls Router.navigateTo("home") on load, so
+       every screen module above must have already registered. -->
+  <script src="js/app.js"></script>
+</body>
+</html>
