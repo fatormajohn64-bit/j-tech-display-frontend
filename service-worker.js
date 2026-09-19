@@ -8,7 +8,7 @@
  * users get the update instead of a stale cached shell forever.
  */
 
-const CACHE_VERSION = "jtech-shell-v2";
+const CACHE_VERSION = "jtech-shell-v3";
 
 const SHELL_FILES = [
   "index.html",
@@ -29,6 +29,10 @@ const SHELL_FILES = [
   "icons/icon-192.png",
   "icons/icon-512.png",
 ];
+
+// Files where being fast offline matters more than always being the
+// absolute latest byte — served cache-first, same as before.
+const CACHE_FIRST_EXTENSIONS = [".png", ".jpg", ".jpeg", ".ico", ".webp"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -57,22 +61,35 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) return cached;
+  const isCacheFirst = CACHE_FIRST_EXTENSIONS.some((ext) => url.pathname.endsWith(ext));
 
-      return fetch(event.request)
-        .then((response) => {
-          // Cache newly-seen same-origin shell files (e.g. a new
-          // screen's JS added in a later phase) as they're first
-          // requested, without needing a SHELL_FILES update every time.
-          if (response.ok) {
-            const clone = response.clone();
-            caches.open(CACHE_VERSION).then((cache) => cache.put(event.request, clone));
-          }
+  if (isCacheFirst) {
+    event.respondWith(
+      caches.match(event.request).then((cached) => {
+        if (cached) return cached;
+        return fetch(event.request).then((response) => {
+          if (response.ok) cacheResponse(event.request, response.clone());
           return response;
-        })
-        .catch(() => cached);
-    })
+        });
+      })
+    );
+    return;
+  }
+
+  // Network-first for HTML/CSS/JS: a code update on GitHub must show up
+  // the next time someone opens the app, not be silently masked by a
+  // stale cached copy. The cache here exists purely as an offline
+  // fallback, never as the default source of truth.
+  event.respondWith(
+    fetch(event.request)
+      .then((response) => {
+        if (response.ok) cacheResponse(event.request, response.clone());
+        return response;
+      })
+      .catch(() => caches.match(event.request))
   );
 });
+
+function cacheResponse(request, response) {
+  caches.open(CACHE_VERSION).then((cache) => cache.put(request, response));
+}
