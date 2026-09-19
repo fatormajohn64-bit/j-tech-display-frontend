@@ -1,0 +1,348 @@
+/**
+ * Layout shared by more than one screen: the standard content padding
+ * wrapper, and the two-column wallpaper grid/card used by Search,
+ * Categories, and Favorites alike (Home's feed is full-bleed and gets
+ * its own rules when that screen is built). Screen-specific detail
+ * layouts (Wallpaper Detail, Settings, Profile, etc.) get their own
+ * sections here as each screen is built in later phases.
+ */
+
+.screen-content {
+  padding: var(--space-4);
+  padding-top: calc(var(--safe-top) + var(--space-4));
+  padding-bottom: calc(var(--space-8) + var(--bottom-nav-height));
+}
+
+/* Stack screens (Wallpaper Detail, Settings, ...) have no bottom nav
+   visible, so they reclaim that space instead of padding for it. */
+.screen-content.no-bottom-nav {
+  padding-bottom: var(--space-8);
+}
+
+/* ---------------- Wallpaper grid (2 columns, staggered) ---------------- */
+
+.wallpaper-grid {
+  column-count: 2;
+  column-gap: var(--space-3);
+}
+
+.wallpaper-card {
+  position: relative;
+  break-inside: avoid;
+  margin-bottom: var(--space-3);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.wallpaper-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.wallpaper-card .wallpaper-card-favorite {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 13, 22, 0.55);
+  backdrop-filter: blur(4px);
+  color: #fff;
+}
+
+.wallpaper-card .wallpaper-card-favorite svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+}
+
+.wallpaper-card .wallpaper-card-favorite.is-favorited {
+  color: var(--color-favorite);
+}
+
+.wallpaper-card .wallpaper-card-favorite.is-favorited svg {
+  fill: var(--color-favorite);
+}
+
+/* Skeleton placeholder shown while a card's image loads or while a
+   page of results is being fetched. */
+.wallpaper-card.is-skeleton {
+  aspect-ratio: 9 / 16;
+  background: linear-gradient(
+    100deg,
+    var(--color-surface) 30%,
+    var(--color-surface-hover) 50%,
+    var(--color-surface) 70%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ---------------- Section heading used at the top of most screens ---------------- */
+
+.screen-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-4);
+}
+
+/* ================================================================
+   Home — immersive vertical feed
+   ================================================================ */
+
+/* Home manages its own two-region layout (fixed header + scrolling
+   feed) instead of the generic single-scroll `.screen` behavior every
+   other screen uses. */
+.screen[data-screen="home"].is-active {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.home-header {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: calc(var(--safe-top) + var(--space-3)) var(--space-4) var(--space-3);
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.search-field-placeholder {
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-base);
+}
+
+.chip-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.home-feed {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+.feed-card {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  background: var(--color-bg-elevated);
+  overflow: hidden;
+}
+
+.feed-card.is-skeleton {
+  background: linear-gradient(
+    100deg,
+    var(--color-surface) 30%,
+    var(--color-surface-hover) 50%,
+    var(--color-surface) 70%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+.feed-card-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feed-card-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.feed-card-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.35) 22%,
+    rgba(0, 0, 0, 0) 45%
+  );
+  pointer-events: none;
+}
+
+/* ---- Swipe-up hint, shown once on the first card ---- */
+
+.feed-hint {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 42%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  animation: fade-out-hint 3s ease forwards;
+}
+
+.feed-hint-chevron {
+  display: block;
+  width: 28px;
+  height: 28px;
+  transform: rotate(180deg);
+  animation: bounce-hint 1.4s ease-in-out infinite;
+}
+
+.feed-hint-chevron svg {
+  width: 100%;
+  height: 100%;
+  stroke: #fff;
+}
+
+.feed-hint-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+}
+
+.feed-hint-sub {
+  font-size: var(--font-size-sm);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+@keyframes bounce-hint {
+  0%, 100% { transform: rotate(180deg) translateY(0); }
+  50% { transform: rotate(180deg) translateY(-6px); }
+}
+
+@keyframes fade-out-hint {
+  0%, 70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ---- Right-side action stack (favorite / download / share) ---- */
+
+.feed-actions {
+  position: absolute;
+  right: var(--space-3);
+  bottom: 128px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  z-index: 2;
+}
+
+.feed-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(10, 13, 22, 0.45);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  transition: transform var(--transition-fast);
+}
+
+.feed-action-btn:active {
+  transform: scale(0.9);
+}
+
+.feed-action-btn svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+}
+
+.feed-action-btn.is-favorited {
+  color: var(--color-favorite);
+}
+
+.feed-action-btn.is-favorited svg {
+  fill: var(--color-favorite);
+}
+
+/* ---- Bottom info block (title / tags / attribution) ---- */
+
+.feed-info {
+  position: absolute;
+  left: var(--space-4);
+  right: calc(var(--space-4) + 60px); /* leaves room for the action stack */
+  bottom: calc(var(--space-5) + var(--safe-bottom));
+  color: #fff;
+  z-index: 1;
+}
+
+.feed-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-1);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.feed-tags {
+  font-size: var(--font-size-sm);
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: var(--space-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.feed-attribution {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.feed-source-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.feed-more-btn {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.feed-more-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+}
