@@ -60,8 +60,18 @@ const Router = (() => {
    */
   async function navigateTo(name, params = {}) {
     if (!screens[name]) {
-      console.error(`Router.navigateTo: unknown screen "${name}"`);
-      return;
+      // Not registered by a screen module (yet) — if the section
+      // exists in the DOM, register it as a bare placeholder so
+      // navigation still works and shows its "Built in a later phase"
+      // content, rather than silently doing nothing. Once that screen's
+      // real module loads and calls Router.register with a controller,
+      // this placeholder registration is simply overwritten.
+      const element = document.querySelector(`.screen[data-screen="${name}"]`);
+      if (!element) {
+        console.error(`Router.navigateTo: unknown screen "${name}"`);
+        return;
+      }
+      screens[name] = { element, controller: undefined };
     }
 
     stack = TAB_SCREENS.includes(name) ? [name] : [...stack, name];
