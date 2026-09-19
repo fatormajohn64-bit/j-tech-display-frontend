@@ -2,6 +2,51 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+
+  <!-- Boot-error catcher: if any file fails to load or any script
+       throws before the app can render, this prints the real reason
+       directly on screen instead of leaving a blank page — mobile
+       browsers don't offer an easy console, so this is how we debug. -->
+  <script>
+    (function () {
+      var reported = [];
+      function showBootError(message) {
+        if (reported.indexOf(message) !== -1) return; // don't spam duplicates
+        reported.push(message);
+        var el = document.getElementById("boot-error");
+        if (!el) {
+          el = document.createElement("div");
+          el.id = "boot-error";
+          el.style.cssText =
+            "position:fixed;inset:0;z-index:99999;background:#0B0F1A;color:#FF6B6B;" +
+            "padding:20px;font:13px/1.6 monospace;overflow:auto;white-space:pre-wrap;";
+          el.textContent = "J-Tech Display failed to load. Screenshot this and send it back:\n\n";
+          document.addEventListener("DOMContentLoaded", function () {
+            document.body.appendChild(el);
+          });
+          if (document.body) document.body.appendChild(el);
+        }
+        el.textContent += "• " + message + "\n\n";
+      }
+      window.addEventListener(
+        "error",
+        function (event) {
+          if (event.target && event.target !== window && event.target.tagName) {
+            var src = event.target.src || event.target.href || "";
+            showBootError("Failed to load file: " + src + "\n  (check it's in the right folder)");
+          } else {
+            showBootError((event.message || "Script error") + "\n  at " + (event.filename || "?") + ":" + (event.lineno || "?"));
+          }
+        },
+        true
+      );
+      window.addEventListener("unhandledrejection", function (event) {
+        var reason = event.reason && event.reason.message ? event.reason.message : String(event.reason);
+        showBootError("Unhandled error: " + reason);
+      });
+    })();
+  </script>
+
   <!-- user-scalable=no + maximum-scale=1 is what removes pinch-zoom;
        viewport-fit=cover lets us read safe-area-inset-* for notches. -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
