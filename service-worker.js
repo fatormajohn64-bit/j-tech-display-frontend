@@ -8,7 +8,7 @@
  * users get the update instead of a stale cached shell forever.
  */
 
-const CACHE_VERSION = "jtech-shell-v3";
+const CACHE_VERSION = "jtech-shell-v4";
 
 const SHELL_FILES = [
   "index.html",
@@ -21,11 +21,20 @@ const SHELL_FILES = [
   "js/icons.js",
   "js/toast.js",
   "js/media-actions.js",
+  "js/bottom-sheet.js",
+  "js/wallpaper-grid.js",
   "js/router.js",
   "js/api.js",
   "js/auth.js",
   "js/app.js",
   "js/screens/home.js",
+  "js/screens/search.js",
+  "js/screens/categories.js",
+  "js/screens/category-detail.js",
+  "js/screens/wallpaper-detail.js",
+  "js/screens/favorites.js",
+  "js/screens/profile.js",
+  "js/screens/settings.js",
   "icons/icon-192.png",
   "icons/icon-512.png",
 ];
