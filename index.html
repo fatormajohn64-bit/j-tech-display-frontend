@@ -77,74 +77,16 @@
       <!-- ============ Tab screens (bottom nav) ============ -->
 
       <section class="screen" data-screen="home"></section>
-
-      <section class="screen" data-screen="search">
-        <div class="screen-content">
-          <div class="state-block">
-            <div class="state-title">Search</div>
-            <div>Built in a later phase.</div>
-          </div>
-        </div>
-      </section>
-
-      <section class="screen" data-screen="categories">
-        <div class="screen-content">
-          <div class="state-block">
-            <div class="state-title">Categories</div>
-            <div>Built in a later phase.</div>
-          </div>
-        </div>
-      </section>
-
-      <section class="screen" data-screen="favorites">
-        <div class="screen-content">
-          <div class="state-block">
-            <div class="state-title">Favorites</div>
-            <div>Built in a later phase.</div>
-          </div>
-        </div>
-      </section>
-
-      <section class="screen" data-screen="profile">
-        <div class="screen-content">
-          <div class="state-block">
-            <div class="state-title">Profile</div>
-            <div>Built in a later phase.</div>
-          </div>
-        </div>
-      </section>
+      <section class="screen" data-screen="search"></section>
+      <section class="screen" data-screen="categories"></section>
+      <section class="screen" data-screen="favorites"></section>
+      <section class="screen" data-screen="profile"></section>
 
       <!-- ============ Stack screens (pushed, own back button, no bottom nav) ============ -->
 
-      <section class="screen" data-screen="wallpaper-detail">
-        <div class="screen-content no-bottom-nav">
-          <button type="button" class="icon-btn" data-action="back"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
-          <div class="state-block">
-            <div class="state-title">Wallpaper Detail</div>
-            <div>Built in a later phase.</div>
-          </div>
-        </div>
-      </section>
-
-      <section class="screen" data-screen="category-detail">
-        <div class="screen-content no-bottom-nav">
-          <button type="button" class="icon-btn" data-action="back"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
-          <div class="state-block">
-            <div class="state-title">Category Detail</div>
-            <div>Built in a later phase.</div>
-          </div>
-        </div>
-      </section>
-
-      <section class="screen" data-screen="settings">
-        <div class="screen-content no-bottom-nav">
-          <button type="button" class="icon-btn" data-action="back"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
-          <div class="state-block">
-            <div class="state-title">Settings</div>
-            <div>Built in a later phase.</div>
-          </div>
-        </div>
-      </section>
+      <section class="screen" data-screen="wallpaper-detail"></section>
+      <section class="screen" data-screen="category-detail"></section>
+      <section class="screen" data-screen="settings"></section>
 
     </div>
 
@@ -186,13 +128,21 @@
   <script src="js/icons.js"></script>
   <script src="js/toast.js"></script>
   <script src="js/media-actions.js"></script>
+  <script src="js/bottom-sheet.js"></script>
+  <script src="js/wallpaper-grid.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/api.js"></script>
   <script src="js/router.js"></script>
 
-  <!-- Screen modules register themselves with Router.register(...) —
-       added one by one in later phases. -->
+  <!-- Screen modules register themselves with Router.register(...). -->
   <script src="js/screens/home.js"></script>
+  <script src="js/screens/search.js"></script>
+  <script src="js/screens/categories.js"></script>
+  <script src="js/screens/category-detail.js"></script>
+  <script src="js/screens/wallpaper-detail.js"></script>
+  <script src="js/screens/favorites.js"></script>
+  <script src="js/screens/profile.js"></script>
+  <script src="js/screens/settings.js"></script>
 
   <!-- app.js last: it calls Router.navigateTo("home") on load, so
        every screen module above must have already registered. -->
