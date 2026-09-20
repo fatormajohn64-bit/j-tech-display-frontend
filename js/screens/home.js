@@ -103,7 +103,7 @@
     try {
       const result = await Api.getFeed({ page: state.page, limit: 10 });
       state.items = isFirstPage ? result.items : [...state.items, ...result.items];
-      state.hasNext = result.has_next;
+      state.hasNext = result.pagination.has_next;
       state.page += 1;
       renderFeed();
     } catch (error) {
